@@ -1,11 +1,12 @@
 FROM golang:alpine AS builder
 
-WORKDIR $GOPATH/src
+WORKDIR /src
 COPY . .
 
-RUN go build ./cmd/dustybot -o /go/bin/dustybot
+RUN CGO_ENABLED=0 go build -o /dustybot ./cmd/dustybot
 
 FROM scratch
-COPY --from=builder /go/bin/dustybot /go/bin/dustybot
+COPY --from=builder /dustybot /dustybot
+COPY --from=alpine:latest /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-ENTRYPOINT ["/go/bin/dustybot"]
+ENTRYPOINT ["/dustybot"]
