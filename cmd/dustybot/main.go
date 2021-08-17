@@ -86,7 +86,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 }
 
 func getEmbed(url string) (*discordgo.MessageEmbed, error) {
-	real, err := getEmbedUrl(url)
+	real, err := getEmbedURL(url)
 	if err != nil {
 		return nil, fmt.Errorf("getRealUrl: %w", err)
 	}
@@ -129,7 +129,7 @@ func getEmbed(url string) (*discordgo.MessageEmbed, error) {
 	return embed, nil
 }
 
-func getEmbedUrl(url string) (string, error) {
+func getEmbedURL(url string) (string, error) {
 	client := &http.Client{
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
 			return http.ErrUseLastResponse
